@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Schedule Browser</title>
+    <title>Schedule Browser By Professor</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="js/drawtable.js"></script>
-    <script type="text/javascript" src="js/coursesbysubject.js"></script>
+    <script type="text/javascript" src="js/coursesbyfaculty.js"></script>
 </head>
 <body>
 <div class="container is-fullhd">
-    <h1 class="title">Schedule Browser</h1>
+    <h1 class="title">Schedule Browser By Professor</h1>
     <div class="columns">
         <div class="column field">
             <label class="label">Enter Department Code (e.g., CSC)</label>
@@ -25,8 +25,22 @@
             </div>
         </div>
     </div>
+    <div class="columns">
+        <div class="column field">
+            <label class="label">Last Name</label>
+            <div class="control">
+                <input id="lastfield" class="input" type="text" placeholder="Professor Last Name">
+            </div>
+        </div>
+        <div class="column field">
+            <label class="label">First Name</label>
+            <div class="control">
+                <input id="firstfield" class="input" type="text" placeholder="Professor First Name">
+            </div>
+        </div>
+    </div>
     <div class="control">
-        <button class="button is-primary" onclick="drawCoursesBySubject()">Submit</button>
+        <button class="button is-primary" onclick="drawCoursesByFaculty()">Submit</button>
     </div>
 </div>
 <div class="section">
