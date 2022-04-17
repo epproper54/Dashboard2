@@ -23,9 +23,11 @@ function drawScheduleTable(jsondata) {
             var faculty = rowdata.faculty.firstname + " " + rowdata.faculty.lastname;
             if (rowdata.faculty.firstname == null)
                 faculty = "STAFF";
-            var building = rowdata.building + rowdata.room;
-            if (building == 0)
+            var building;
+            if (rowdata.building == null)
                 building = "N/A"
+            else
+                building = rowdata.building + " " + rowdata.room;
             var classTime = rowdata.classdays + " " + rowdata.starttime + rowdata.startam_PM + " - " + rowdata.endtime + rowdata.endam_PM;
             if (rowdata.classdays == null){
                 classTime = 'N/A'

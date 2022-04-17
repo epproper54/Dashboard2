@@ -1,28 +1,60 @@
 google.charts.load('current', {'packages':['table']});
 
+var inputDropdown;
+
 function drawCoursesBySubject() {
 
     var subjectTextField = document.getElementById("subjectfield");
     var termTextField = document.getElementById("termfield");
 
-    var term = findGetParameter("term");
-    var subject = findGetParameter("subject");
-    var serviceURL = "http://localhost:8080/coursesbysubject?subject=" +
-        (subjectTextField.value).toUpperCase() +
-        "&term=" + termTextField.value;
+    inputDropdown = document.getElementById("subjectmenu");
+
+    selectedValue = inputDropdown.options[inputDropdown.selectedIndex];
+    var subject = selectedValue.getAttribute("subject");
+
+    var serviceURL = "coursesbysubject?subject=" +
+        subject + "&term=" + termTextField.value;
 
     let request = new XMLHttpRequest();
 
-    request.open("GET", serviceURL);
-    request.send();
-    request.onload = () => {
-        if (request.status == 200) {
-            jsondata = JSON.parse(request.response).schedule;
-            var data = drawScheduleTable(jsondata);
-            var table = new google.visualization.Table(document.getElementById('table_div'));
-            table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+    if (subject != null && termTextField.value != null) {
+
+        request.open("GET", serviceURL);
+        request.send();
+        request.onload = () => {
+            if (request.status == 200) {
+                jsondata = JSON.parse(request.response).schedule;
+                var data = drawScheduleTable(jsondata);
+                var table = new google.visualization.Table(document.getElementById('table_div'));
+
+                table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+            }
         }
     }
+
+    var schServiceURL = "schbydepartment?subject=" +
+        subject + "&term=" + termTextField.value;
+    console.log(schServiceURL);
+
+    let schRequest = new XMLHttpRequest();
+
+    var cardname = document.getElementById("cardname");
+
+    var inputDropdown = document.getElementById("subjectmenu");
+    var selectedValue = inputDropdown.options[inputDropdown.selectedIndex];
+
+    cardname.innerText = selectedValue.value;
+
+    schRequest.open("GET", schServiceURL);
+    schRequest.send();
+    schRequest.onload = () => {
+        if (schRequest.status == 200) {
+            jsondata = JSON.parse(schRequest.response);
+            var schTotal = document.getElementById("schTotal");
+            schTotal.innerText = "Student credit hours: " + jsondata.creditHoursGenerated;
+        }
+    }
+
 }
 
 function findGetParameter(parameterName) {

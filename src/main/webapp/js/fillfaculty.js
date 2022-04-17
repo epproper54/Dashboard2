@@ -3,9 +3,13 @@ function fillfaculty() {
     var subjectTextField = document.getElementById("subjectfield");
     var termTextField = document.getElementById("termfield");
 
-    var serviceURL = "http://localhost:8080/facultybysubject?subject=" +
-        (subjectTextField.value).toUpperCase() +
-        "&term=" + termTextField.value;
+    inputDropdown = document.getElementById("subjectmenu");
+
+    selectedValue = inputDropdown.options[inputDropdown.selectedIndex];
+    var subject = selectedValue.getAttribute("subject");
+
+    var serviceURL = "facultybysubject?subject=" +
+        subject + "&term=" + termTextField.value;
 
     let request = new XMLHttpRequest();
     var list = document.getElementById("codemenu");

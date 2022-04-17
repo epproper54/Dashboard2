@@ -2,16 +2,22 @@ google.charts.load('current', {'packages':['table']});
 
 function drawCourseBySection() {
 
-    var subjectTextField = document.getElementById("subjectfield");
+//    var subjectTextField = document.getElementById("subjectfield");
     var termTextField = document.getElementById("termfield");
     var courseTextField = document.getElementById("coursefield");
     var sectionTextField = document.getElementById("sectionfield");
 
-    var serviceURL = "http://localhost:8080/coursebysection?subject=" +
-        (subjectTextField.value).toUpperCase() +
+    inputDropdown = document.getElementById("subjectmenu");
+
+    selectedValue = inputDropdown.options[inputDropdown.selectedIndex];
+    var subject = selectedValue.getAttribute("subject");
+
+    var serviceURL = "coursebysection?subject=" + subject +
         "&term=" + termTextField.value +
         "&course=" + courseTextField.value +
         "&section=" + sectionTextField.value;
+
+    console.log(serviceURL);
 
     let request = new XMLHttpRequest();
 

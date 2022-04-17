@@ -2,20 +2,26 @@ google.charts.load('current', {'packages':['table']});
 
 function drawCoursesByFaculty() {
 
-    var subjectTextField = document.getElementById("subjectfield");
+    //var subjectTextField = document.getElementById("subjectfield");
     var termTextField = document.getElementById("termfield");
 
     inputDropdown = document.getElementById("codemenu");
+    subjectDropdown = document.getElementById("subjectmenu");
 
     selectedValue = inputDropdown.options[inputDropdown.selectedIndex];
     var lastTextField = selectedValue.getAttribute("lastname");
     var firstTextField = selectedValue.getAttribute("firstname");
 
-    var serviceURL = "http://localhost:8080/coursesbyfaculty?subject=" +
-        (subjectTextField.value).toUpperCase() +
+    selectedSubject = subjectDropdown.options[subjectDropdown.selectedIndex];
+    var subjectTextField = selectedSubject.getAttribute("subject");
+
+    var serviceURL = "coursesbyfaculty?subject=" +
+        (subjectTextField).toUpperCase() +
         "&term=" + termTextField.value +
         "&lastname=" + lastTextField +
         "&firstname=" + firstTextField;
+
+    console.log(serviceURL);
 
     let coursesRequest = new XMLHttpRequest();
 
@@ -30,11 +36,12 @@ function drawCoursesByFaculty() {
         }
     }
 
-    var schServiceURL = "http://localhost:8080/schbyfaculty?subject=" +
-        subjectTextField.value.toUpperCase() +
+    var schServiceURL = "schbyfaculty?subject=" +
+        subjectTextField.toUpperCase() +
         "&term=" + termTextField.value +
         "&lastname=" + lastTextField +
         "&firstname=" + firstTextField;
+    console.log(schServiceURL);
 
     let schRequest = new XMLHttpRequest();
 
