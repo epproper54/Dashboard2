@@ -128,72 +128,6 @@ public class ServiceBridge {
         return result;
     }
 
-    @GetMapping("/coursesbycrnlist")
-    public ArrayList<CourseInstance> coursesbycrnlist(
-            @RequestParam(value = "term", defaultValue = "202210") String term,
-            @RequestParam(value = "crnlist", defaultValue = "10803") String crnlist
-    ) {
-        SemesterSchedule schedule = this.allcourses(term);
-        CourseInstance[] courses = schedule.getSchedule();
-
-        String[] list = crnlist.split(",");
-        ArrayList<CourseInstance> results = new ArrayList<>();
-
-        for(int i = 0; i < list.length; i++) {
-            for (CourseInstance c : courses) {
-                if (c.getCRN().contentEquals(list[i]))
-                    results.add(c);
-            }
-        }
-        return results;
-    }
-
-    @GetMapping("/facultybysubject")
-    public Collection<Faculty> facultyBySubject(
-            @RequestParam(value = "subject", defaultValue = "CSC") String subject,
-            @RequestParam(value = "term", defaultValue = "202210") String term
-    ) {
-        CourseInstance[] courses = this.courses(subject, term);
-
-        Collection<Faculty> collection = new TreeSet<>(); // Uses a TreeSet to ensure uniqueness
-        Faculty f;
-        for (CourseInstance c: courses){
-            f = c.getFaculty();
-            collection.add(f);
-        }
-        return collection;
-    }
-
-    @GetMapping("/getallsubjects")
-    public Collection<String> subjects(
-            @RequestParam(value = "term", defaultValue = "202210") String term
-    ) {
-
-        String urlString = "https://portapi.tntech.edu/express/api/unprotected/getCourseInfoByAPIKey.php?Term=%s&Key=%s";
-        String serviceString = String.format(urlString, term, apiKey);
-        Gson gson = new Gson();
-        Collection<String> collection = new TreeSet<>();
-
-        try {
-            URL url = new URL(serviceString);
-            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-
-            JsonReader jr = gson.newJsonReader(in);
-            CourseInstance[] gm = gson.fromJson(jr, CourseInstance[].class);
-
-            for (CourseInstance c: gm){
-                c.setSubjectterm(term);
-                collection.add(c.getSubjectterm().getSubject());
-            }
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return collection;
-    }
-
     @GetMapping("/schbydepartment")
     public SubjectCreditHours creditHours(
             @RequestParam(value = "subject", defaultValue = "CSC") String subject,
@@ -208,32 +142,6 @@ public class ServiceBridge {
         }
         SubjectCreditHours sch = new SubjectCreditHours(subject, term, scrh);
         return sch;
-    }
-
-    @GetMapping("/schbydeptandterms")
-    public ArrayList<SubjectCreditHours> creditHourRange(
-            @RequestParam(value = "subject", defaultValue = "CSC") String subject,
-            @RequestParam(value = "beginterm", defaultValue = "201780") String beginTerm,
-            @RequestParam(value = "endterm", defaultValue = "202180") String endTerm
-    ) {
-
-        ArrayList<SubjectCreditHours> list = new ArrayList();
-        CourseInstance[] gm = null;
-
-        int lower = Integer.parseInt(beginTerm.substring(0,4));
-        int upper = Integer.parseInt(endTerm.substring(0,4));
-        int term = Integer.parseInt(beginTerm.substring(4));
-
-        for (int i = lower; i <= upper; i++) {
-            gm = this.courses(subject, i + "" + term );
-            int scrh = 0;
-            for (CourseInstance c : gm) {
-                scrh += c.getSTUDENTCOUNT() * c.getCREDITS();
-            }
-            SubjectCreditHours sch = new SubjectCreditHours(subject, i + "" + term, scrh);
-            list.add(sch);
-        }
-        return list;
     }
 
     @GetMapping("/schbyfaculty")
