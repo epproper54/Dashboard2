@@ -19,8 +19,8 @@ import java.util.TreeSet;
 @RestController
 public class ServiceBridge {
 
-    private static final String apiKey = "F419E6B3-FE95-444F-B5EE-D90BA7C71751";
-    private static final String urlString = "https://portapi.tntech.edu/express/api/unprotected/getCourseInfoByAPIKey.php?Subject=%s&Term=%s&Key=%s";
+    private static final String apiKey = "YOURKEY";
+    private static final String urlString = "https://portapit.tntech.edu/express/api/unprotected/getCourseInfoByAPIKey.php?Subject=%s&Term=%s&Key=%s";
 
     private CourseInstance[] courses(String subject, String term) {
 
