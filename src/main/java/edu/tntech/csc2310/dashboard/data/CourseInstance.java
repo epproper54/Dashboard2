@@ -116,4 +116,6 @@ public class CourseInstance {
     public String getTITLE() {
         return TITLE;
     }
+
+    public String getDEPARTMENT(){return DEPARTMENT;}
 }
