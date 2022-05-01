@@ -3,6 +3,21 @@
 
 Deans, Associate Deans, Department chairs and others across the university are constantly in need of the data necessary to help drive decision making. In order to use that data, effective visualization is needed to facilitate interpretation of the vast amount of information available to these administrators. In this project we created a number of webservices suitable for supporting the creation of dashboards that can be used to access valuable institutional data. 
 
+## javadoc writeup
+
+When implementing a new method, you want to comment the description of the parameters and what will be returned. 
+Here is an example from the schbyfaculty method:
+
+    /***  
+     *
+     * @param subject This is the type of course.  
+     * @param term Term of the courses.  
+     * @param lastname Last name of faculty  
+     * @param firstname First name of faculty  
+     * @return Number of credit hours per faculty  
+     */ 
+
+
 ## src/main
 Go to java 
 
